@@ -1,0 +1,25 @@
+$headerBackground: hsl(210deg 10% 23%);
+
+#header{
+  background: $headerBackground;
+  color: white;
+  margin: 0px 60px ;
+  padding: 15px 30px;
+  h1{
+    margin: 0;
+  }
+}
+
+main{
+  display: flex !important;
+  flex-direction: row !important;
+  margin: 0px 60px 30px 60px;
+
+  #add-form{
+    width: 25vw;
+  }
+
+  #task-container{
+    width: 80vw !important;
+  }
+}
