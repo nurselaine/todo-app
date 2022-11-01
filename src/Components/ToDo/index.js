@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useForm from '../../hooks/form.js';
+import Navbar from '../Navbar/Navbar.jsx';
+import Header from '../Header/Header.jsx';
+import AddForm from '../AddForm/AddForm.jsx';
+import List from '../List/List.jsx';
+import { SettingsContext } from '../../Context/Settings/Settings.jsx';
 
 import { v4 as uuid } from 'uuid';
+import { Container, Pagination } from '@mantine/core';
+import './styles.scss';
 
 const ToDo = () => {
 
@@ -10,7 +17,19 @@ const ToDo = () => {
   });
   const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
+  const [paginationList, setPaginationList] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
+
+  const { recordsPerPage, displayComplete, defaultSort } = useContext(SettingsContext);
+
+
+  const handlePagination = (current) => {
+    console.log('handle pagination', current);
+    const indexOfLastRecord = current * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = list.slice(indexOfFirstRecord, indexOfLastRecord);
+    setPaginationList(currentRecords);
+  }
 
   function addItem(item) {
     item.id = uuid();
@@ -20,21 +39,19 @@ const ToDo = () => {
   }
 
   function deleteItem(id) {
-    const items = list.filter( item => item.id !== id );
+    const items = list.filter(item => item.id !== id);
     setList(items);
   }
 
   function toggleComplete(id) {
 
-    const items = list.map( item => {
-      if ( item.id === id ) {
-        item.complete = ! item.complete;
+    const items = list.map(item => {
+      if (item.id === id) {
+        item.complete = !item.complete;
       }
       return item;
     });
-
     setList(items);
-
   }
 
   useEffect(() => {
@@ -44,48 +61,34 @@ const ToDo = () => {
     // linter will want 'incomplete' added to dependency array unnecessarily. 
     // disable code used to avoid linter warning 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, [list]);  
+  }, [list]);
 
   return (
     <>
-      <header data-testid="todo-header">
-        <h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
-      </header>
-
-      <form onSubmit={handleSubmit}>
-
-        <h2>Add To Do Item</h2>
-
-        <label>
-          <span>To Do Item</span>
-          <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-        </label>
-
-        <label>
-          <span>Assigned To</span>
-          <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-        </label>
-
-        <label>
-          <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-        </label>
-
-        <label>
-          <button type="submit">Add Item</button>
-        </label>
-      </form>
-
-      {list.map(item => (
-        <div key={item.id}>
-          <p>{item.text}</p>
-          <p><small>Assigned to: {item.assignee}</small></p>
-          <p><small>Difficulty: {item.difficulty}</small></p>
-          <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
-          <hr />
-        </div>
-      ))}
-
+      <Navbar />
+      <Header data-testid='todo-header' incomplete={incomplete} />
+      <main>
+        <AddForm
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          defaultValues={defaultValues}
+          id="add-form"
+        />
+          <Container id='task-container' sx={{ maxWidth: '70vw' }} mx='0'>
+            {paginationList.map(item => (
+              <List
+                item={item}
+                toggleComplete={toggleComplete}
+              />
+            ))}
+            <Pagination
+              total={Math.ceil(list.length / 3)}
+              // page={currentPage}
+              recordsPerPage={3}
+              onChange={handlePagination}
+            />
+          </Container>
+      </main>
     </>
   );
 };

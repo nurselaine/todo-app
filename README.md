@@ -7,9 +7,21 @@
 ## Author: Elaine Huynh
 
 ## Start Instructions
-  - npm i uuid @mantine/core @mantine/hooks @emotion/react
+  - npm i uuid @mantine/core @mantine/hooks @emotion/react axios
 
 ## Phases
-  - Refactor To Do Application built by another team
-    - modularize the application and utilize Mantine API to style application
+
+  Phase 1: Application Setup
+    Basic To Do List Management, using Hooks
+    - Refactor To Do Application built by another team
+      - modularize the application and utilize Mantine API to style application
+  Phase 2: Persistence
+    Implement a custom Form Hook
+    Implement a custom Ajax Hook
+    Connect to a live API for storing To Do Items
+  Phase 3: Settings and Global Context
+    Implement user settings for displaying items
+  Phase 4: Authorization
+    Require a login to access the list
+    Restrict access to adding, editing, deleting to certain user types
 
