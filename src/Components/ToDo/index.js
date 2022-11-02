@@ -72,6 +72,7 @@ const ToDo = () => {
                 handleSubmit={handleSubmit}
                 defaultValues={defaultValues}
                 id="add-form"
+                data-testid='todo-form'
               />
             </Card>
           </Grid.Col>
@@ -80,6 +81,7 @@ const ToDo = () => {
               list={list}
               toggleComplete={toggleComplete}
               recordsPerPage={recordsPerPage}
+              data-testid='todo-list'
             />
           </Grid.Col>
         </Grid>
