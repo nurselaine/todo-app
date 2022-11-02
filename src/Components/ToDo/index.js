@@ -1,35 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react';
 import useForm from '../../hooks/form.js';
-import Navbar from '../Navbar/Navbar.jsx';
-import Header from '../Header/Header.jsx';
+import AppHeader from '../Header/Header.jsx';
 import AddForm from '../AddForm/AddForm.jsx';
 import List from '../List/List.jsx';
 import { SettingsContext } from '../../Context/Settings/Settings.jsx';
 
 import { v4 as uuid } from 'uuid';
-import { Container, Pagination } from '@mantine/core';
+import { Card, createStyles, Grid } from '@mantine/core';
 import './styles.scss';
 
+const useStyles = createStyles((theme, _params, getRef) => ({
+  main: {
+    width: '80%',
+    margin: 'auto',
+  }
+}));
+
 const ToDo = () => {
+  const { classes } = useStyles();
 
   const [defaultValues] = useState({
     difficulty: 4,
   });
   const [list, setList] = useState([]);
   const [incomplete, setIncomplete] = useState([]);
-  const [paginationList, setPaginationList] = useState([]);
   const { handleChange, handleSubmit } = useForm(addItem, defaultValues);
 
-  const { recordsPerPage, displayComplete, defaultSort } = useContext(SettingsContext);
-
-
-  const handlePagination = (current) => {
-    console.log('handle pagination', current);
-    const indexOfLastRecord = current * recordsPerPage;
-    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = list.slice(indexOfFirstRecord, indexOfLastRecord);
-    setPaginationList(currentRecords);
-  }
+  const { recordsPerPage } = useContext(SettingsContext);
 
   function addItem(item) {
     item.id = uuid();
@@ -62,32 +59,30 @@ const ToDo = () => {
     // disable code used to avoid linter warning 
     // eslint-disable-next-line react-hooks/exhaustive-deps 
   }, [list]);
-
+  
   return (
     <>
-      <Navbar />
-      <Header data-testid='todo-header' incomplete={incomplete} />
-      <main>
-        <AddForm
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          defaultValues={defaultValues}
-          id="add-form"
-        />
-          <Container id='task-container' sx={{ maxWidth: '70vw' }} mx='0'>
-            {paginationList.map(item => (
-              <List
-                item={item}
-                toggleComplete={toggleComplete}
+      <AppHeader data-testid='todo-header' incomplete={incomplete} />
+      <main className={classes.main}>
+        <Grid style={{width: '100%'}}>
+          <Grid.Col xs={12} sm={4} >
+            <Card withBorder p='xs'>
+              <AddForm
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                defaultValues={defaultValues}
+                id="add-form"
               />
-            ))}
-            <Pagination
-              total={Math.ceil(list.length / 3)}
-              // page={currentPage}
-              recordsPerPage={3}
-              onChange={handlePagination}
+            </Card>
+          </Grid.Col>
+          <Grid.Col xs={12} sm={8}>
+            <List
+              list={list}
+              toggleComplete={toggleComplete}
+              recordsPerPage={recordsPerPage}
             />
-          </Container>
+          </Grid.Col>
+        </Grid>
       </main>
     </>
   );
