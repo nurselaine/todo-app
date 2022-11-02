@@ -4,15 +4,22 @@ import React, { useState } from "react";
 export const SettingsContext = React.createContext();
 
 const SettingsProvider = ({children}) => {
-  const [recordsPerPage] = useState(3);
-  const [displayComplete] = useState(false);
-  const [defaultSort] = useState('')
+  const [recordsPerPage, setRecordsPerPage] = useState(3);
+  const [displayComplete, setDisplayCompleted] = useState(false);
+  const [sort, setSort] = useState('difficulty');
+  const [settings, setSettings] = useState({recordsPerPage, displayComplete, sort});
+
 
   const values = {
     recordsPerPage,
+    setRecordsPerPage,
     displayComplete,
-    defaultSort,
-  }
+    setDisplayCompleted,
+    sort,
+    setSort,
+    settings,
+    setSettings
+  };
 
   return (
     <SettingsContext.Provider value={values}>
