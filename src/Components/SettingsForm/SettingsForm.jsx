@@ -38,16 +38,25 @@ export default function SettingsForm({handleShowSetting}) {
   
     useEffect(() => {
       // get user preferences from local storage on page load
-      // setSettings(JSON.parse(localStorage.getItem('userPreferences')));
       let initalObj = localStorage.getItem('userPreferences');
       setSettings(JSON.parse(initalObj));
+      setDisplayCompleted(JSON.parse(initalObj).displayComplete);
+      setRecordsPerPage(JSON.parse(initalObj).recordsPerPage);
+      setSort(JSON.parse(initalObj).sort);
     }, [])
 
   return (
     <Box sx={{ maxWidth: '30vw' }}  withBorder mx='0' >
       <h2>Update Settings</h2>
       <form data-testid="settings-form" >
-        <Switch data-testid="switch" label="Show Completed ToDos" labelPosition="right" defaultValue={displayComplete} onChange={handleSyntheticEvent} />
+        <Switch 
+          data-testid="switch" 
+          label="Show Completed ToDos" 
+          labelPosition="right" 
+          defaultValue={displayComplete}
+          value={displayComplete}
+          onChange={handleSyntheticEvent} 
+        />
         <NumberInput
           label="Items Per Page"
           defaultValue={recordsPerPage}
