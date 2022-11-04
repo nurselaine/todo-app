@@ -115,20 +115,3 @@ export default function List({ toggleComplete, list, deleteItem }) {
     </Container>
   )
 }
-
-// const List = () => {
-//   const [list, setList] = useState([]);
-
-//   useEffect(() => {
-//     (async () => {
-//       let results = await axios.get('url goes here');
-//       setList(results.data);
-//     })();
-//   }, []);
-
-//   return (
-//     {list.map((task, index) => (
-//       <p key={`list-${index}`}>{`asignee: ${task.assignee}`}</p>
-//     ))}
-//   )
-// }

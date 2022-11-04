@@ -9,6 +9,9 @@
 ## Start Instructions
   - npm i uuid @mantine/core @mantine/hooks @emotion/react axios react-router-dom react-if
 
+## UML
+![UML](./public/lab34UML.png)
+
 ## Phases
 
   Phase 1: Application Setup

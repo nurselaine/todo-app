@@ -10,7 +10,6 @@ import { AuthContext } from '../../Context/Auth/Auth.jsx';
 import { When } from 'react-if';
 import axios from 'axios';
 import { Card, createStyles, Grid } from '@mantine/core';
-import './styles.scss';
 import Signup from '../Signup/Signup.jsx';
 
 const useStyles = createStyles((theme, _params, getRef) => ({
