@@ -7,7 +7,7 @@
 ## Author: Elaine Huynh
 
 ## Start Instructions
-  - npm i uuid @mantine/core @mantine/hooks @emotion/react axios
+  - npm i uuid @mantine/core @mantine/hooks @emotion/react axios react-router-dom react-if
 
 ## Phases
 
@@ -16,12 +16,17 @@
     - Refactor To Do Application built by another team
       - modularize the application and utilize Mantine API to style application
   Phase 2: Persistence
-    Implement a custom Form Hook
-    Implement a custom Ajax Hook
-    Connect to a live API for storing To Do Items
+    - Add basic application settings - how many items to show at once and whether or not to show completed items
+    - Provide a form for users to change settings
+      - Add user preferences to local storage and retrieve preferences from storage and apply to application on startup
   Phase 3: Settings and Global Context
-    Implement user settings for displaying items
+    - Extend functionality by requiring users to be logged in to view to do list items
+    - Implement role-based access control using user types
+    - Create a login form on the header of the page. 
   Phase 4: Authorization
-    Require a login to access the list
-    Restrict access to adding, editing, deleting to certain user types
+    - Use an API to persist task and user data instead of state. 
+      - Fetch and store current list of items from a database 
+        - In this scenario, we will be making requests on page load and when a task is added/deleted/edited
+      - When users sign in, store the token recieved from the request to state as well as a cookie for later reference
+      - User auth middleware to add another layer of protection so permitted users can make requests to POST/UPDATE/DELETE
 
