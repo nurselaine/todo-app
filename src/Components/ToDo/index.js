@@ -42,7 +42,7 @@ const ToDo = () => {
         setError(e);
       }
     })();
-  }, []);
+  }, [setError]);
 
   async function addItem(item) {
     try {
